@@ -42,7 +42,7 @@ export const getListStorm = async (
     const queryBuilder1 = cityRepository
       .createQueryBuilder("city")
       .leftJoin("city.cityAreas", "cityAreas")
-      .select(["city.name", "cityAreas"])
+      .select(["city.id", "city.name", "cityAreas"])
       .where({
         name: cityName,
       })
@@ -51,9 +51,10 @@ export const getListStorm = async (
     const queryBuilder2 = cityRepository
       .createQueryBuilder("city")
       .leftJoin("city.cityAreas", "cityAreas")
-      .select(["city.name", "cityAreas"])
+      .select(["city.id", "city.name", "cityAreas"])
       .where("city.name != :cityName", {cityName})
       .orderBy("cityAreas.detectedTime", "ASC");
+
     let storms = await queryBuilder1.getMany();
     const storms2 = await queryBuilder2.getMany();
     storms.push(...storms2);
